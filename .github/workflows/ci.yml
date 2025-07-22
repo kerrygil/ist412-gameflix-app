@@ -49,10 +49,6 @@ jobs:
         done
 
     - name: Build with Maven
-      env:
-        SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/gameflix
-        SPRING_DATASOURCE_USERNAME: user
-        SPRING_DATASOURCE_PASSWORD: password
       run: mvn clean package
 
     - name: Build Docker image
