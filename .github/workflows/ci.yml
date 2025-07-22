@@ -3,13 +3,28 @@ name: Spring Boot CI
 on:
   push:
     branches: [ main ]
-
   pull_request:
     branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_DATABASE: gameflix
+          MYSQL_USER: user
+          MYSQL_PASSWORD: password
+          MYSQL_ROOT_PASSWORD: root
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
     - name: Checkout repository
@@ -21,8 +36,19 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
+    - name: Wait for MySQL
+      run: |
+        until mysqladmin ping -hmysql -uuser -ppassword --silent; do
+          echo "Waiting for MySQL..."
+          sleep 3
+        done
+
     - name: Build with Maven
+      env:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/gameflix
+        SPRING_DATASOURCE_USERNAME: user
+        SPRING_DATASOURCE_PASSWORD: password
       run: mvn clean package
 
     - name: Build Docker image
-      run: docker-compose up --build
+      run: docker-compose build
