@@ -36,13 +36,6 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Build with Maven
-      env:
-        SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/gameflix
-        SPRING_DATASOURCE_USERNAME: user
-        SPRING_DATASOURCE_PASSWORD: password
-      run: mvn clean package
-
     - name: Install MySQL client
       run: sudo app-get update && sudo app-get install -y mysql-client
 
@@ -55,5 +48,12 @@ jobs:
           echo "Waiting for MySQL..."; sleep 2
         done
 
+    - name: Build with Maven
+      env:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/gameflix
+        SPRING_DATASOURCE_USERNAME: user
+        SPRING_DATASOURCE_PASSWORD: password
+      run: mvn clean package
+
     - name: Build Docker image
-      run: docker-compose build
+      run: docker-compose up --build 
