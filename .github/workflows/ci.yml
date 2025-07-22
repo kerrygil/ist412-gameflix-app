@@ -37,7 +37,7 @@ jobs:
         java-version: '17'
 
     - name: Install MySQL client
-      run: sudo app-get update && sudo app-get install -y mysql-client
+      run: sudo apt-get update && sudo apt-get install -y mysql-client
 
     - name: Wait for MySQL
       run: |
