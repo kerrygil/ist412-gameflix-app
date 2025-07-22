@@ -36,19 +36,19 @@ jobs:
         distribution: 'temurin'
         java-version: '17'
 
-    - name: Wait for MySQL
-      run: |
-        until mysqladmin ping -h mysql -u user -p password --silent; do
-          echo "Waiting for MySQL..."
-          sleep 3
-        done
-
     - name: Build with Maven
       env:
         SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/gameflix
         SPRING_DATASOURCE_USERNAME: user
         SPRING_DATASOURCE_PASSWORD: password
       run: mvn clean package
+
+    - name: Wait for MySQL
+      run: |
+        until mysqladmin ping -h mysql -u user -p password --silent; do
+          echo "Waiting for MySQL..."
+          sleep 3
+        done
 
     - name: Build Docker image
       run: docker-compose build
