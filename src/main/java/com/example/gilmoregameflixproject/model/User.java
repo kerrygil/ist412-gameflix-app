@@ -2,6 +2,8 @@ package com.example.gilmoregameflixproject.model;
 
 import jakarta.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -15,6 +17,22 @@ public class User implements Serializable {
 
     @Column(nullable = false)
     private String password; // Hashed with BCrypt
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_library",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "game_id")
+    )
+    private List<Game> libraryGames = new ArrayList<>();
+
+    public List<Game> getLibraryGames() {
+        return libraryGames;
+    }
+
+    public void setLibraryGames(List<Game> libraryGames) {
+        this.libraryGames = libraryGames;
+    }
 
     public User() {}
 
