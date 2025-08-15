@@ -9,7 +9,8 @@
     <label>Username: <input type="text" name="username"></label><br><br>
     <label>Password: <input type="password" name="password"></label><br><br>
     <label>Confirm Password: <input type="password" name="password_confirmation"></label><br><br>
-    <button type="submit">Register</button>
+    <button type="submit">Register</button><br><br>
+    <a th:href="@{/login}" class="btn btn-primary">Already Registered?</a>
 </form>
 <div th:if="${param.error}" style="color: red; margin-bottom: 10px;">
     <p th:text="${param.error}"></p>
