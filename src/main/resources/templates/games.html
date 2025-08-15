@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Game Collection</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: auto;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        h1 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1>Game Collection</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Genre</th>
+        <th>Description</th>
+        <th>Price</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="game: ${games}">
+        <td th:text="${game.title}"></td>
+        <td th:text="${game.genre}"></td>
+        <td th:text="${game.description}"></td>
+        <td th:text="${game.price}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

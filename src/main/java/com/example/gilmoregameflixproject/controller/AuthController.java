@@ -18,7 +18,7 @@ public class AuthController {
 
     // Registration endpoint
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> registerUser(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> registerUser(@ModelAttribute User user) {
         String response = userService.registerUser(user);
 
         Map<String, String> responseMap = new HashMap<>();
@@ -33,7 +33,7 @@ public class AuthController {
 
     // Login endpoint
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> loginUser(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> loginUser(@ModelAttribute User user) {
         String result = userService.login(user.getUsername(), user.getPassword());
 
         Map<String, String> responseMap = new HashMap<>();

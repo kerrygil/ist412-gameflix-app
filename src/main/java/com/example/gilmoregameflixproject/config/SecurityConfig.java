@@ -6,6 +6,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -18,11 +19,18 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/register", "/auth/login").permitAll()
+                        .requestMatchers("/view/register", "/view/login", "auth/register", "/register", "/login").permitAll()
+                        .requestMatchers("/games").authenticated()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults());
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .defaultSuccessUrl("/games", true)
+                        .permitAll()
+                )
+                .logout(LogoutConfigurer::permitAll);
 
         return http.build();
     }
 }
+
